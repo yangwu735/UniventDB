@@ -14,7 +14,6 @@ import './App.css';
 
 const App = () => {
     const { activeMenu, currentColor } = useStateContext();
-
   return (
     <div>
         <BrowserRouter>
