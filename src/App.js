@@ -4,7 +4,7 @@ import { FiSettings } from 'react-icons/fi'
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import {Navbar, Footer, Sidebar, ThemeSettings} from './components'
-import {Homepage, Prizes, Events, Calendar, Students, Stacked, Pyramid, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor} from './pages'
+import {Homepage, Prizes, Events, Requests, Calendar, Students, Stacked, Pyramid, Kanban, Area, Line, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor} from './pages'
 
 import { useStateContext } from "./contexts/ContextProvider"
 
@@ -17,10 +17,10 @@ const App = () => {
   return (
     <div>
     <BrowserRouter>
-      <div className="flex relative dark:bg-main-dark-bg">
+      <div className="flex relative">
         
         {activeMenu ? (
-          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+          <div className="w-72 fixed sidebar">
             <Sidebar />
           </div>
         ) : (
@@ -51,6 +51,7 @@ const App = () => {
                         <Route path="/students" element={<Students />} />
                         <Route path="/events" element={<Events />} />
                         <Route path="/prizes" element={<Prizes />} />
+                        <Route path="/requests" element={<Requests />} />
 
                         { /* apps mostly unused */}
                         <Route path="/kanban" element={<Kanban />} />

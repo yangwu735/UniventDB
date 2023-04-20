@@ -1,15 +1,14 @@
 import {React,useState} from 'react';
-import { GridComponent, ColumnsDirective, ColumnDirective, Inject, Edit, Page, Selection, Toolbar, Sort, Filter } from "@syncfusion/ej2-react-grids";
+import { GridComponent, ColumnsDirective, ColumnDirective, Inject, Edit, Page, Selection, Toolbar, Sort, Filter, change } from "@syncfusion/ej2-react-grids";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import { db } from '../lib/firebase';
 
 
 import { employeesGrid, customersGrid } from '../data/dummy';
 import { Header } from '../components';
-import { GetCollection } from '../GetCollection';
+import { GetCollection } from '../tools/GetCollection';
 import { stringToNumber } from '@syncfusion/ej2-react-charts';
-import { MultiSelect } from '@syncfusion/ej2-react-dropdowns';
-
+import MultiSelectEditor from '../tools/MultiSelectEditor';
 
 const Events = () => {
   const [sortSettings, setSortSettings] = useState({ columns: [{ field: 'eventName', direction: 'Ascending' }] });
@@ -25,6 +24,9 @@ const Events = () => {
   
   const handleActionBegin = (args) => {
     console.log(args)
+    if (args.requestType === 'delete'){
+      db.collection('events').doc(args.data[0].ID).delete();
+    }
     if (args.requestType === 'save') {
       const editedData = args.data;
       if (editedData.eventName === '') {
@@ -55,26 +57,15 @@ const Events = () => {
       }
       else{
         if(args.action === 'add'){
-          db.collection('events').doc(args.data.ID).set(args.data);
+          db.collection('events').doc(args.data.ID).set(editedData);
         }
-        db.collection('events').doc(args.data.ID).update(args.data);
+        db.collection('events').doc(args.data.ID).update(editedData);
       }
     } 
     
   };
 
-  const MultiSelectEditor = (props) => {
-    const { value, onChange, dataSource } = props;
   
-    return (
-      <MultiSelect
-        mode="Box"
-        dataSource={dataSource}
-        value={value ? value.split(',') : []}
-        change={(e) => onChange(e.value.join(','))}
-      />
-    );
-  };
   const GetNamesOfCollection = (coll) => {
     let tempArr = []
     coll.forEach(element => {
@@ -85,11 +76,18 @@ const Events = () => {
   }
 
   const editorTemplate = (args) => {
-    return <DropDownListComponent dataSource={["January", "February", "March","April","May","June","July","August","September","October","November","December"]} value={args.eventMonth} change={args.onChange}/>;
+    console.log(args)
+    return (
+      <DropDownListComponent 
+        dataSource={["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]}
+        value={args.eventMonth}
+        change={args.change}
+      />
+    );
   };
   
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 p-2 ml-10 bg-white rounded-3xl">
       <Header category="Page" title="Events" />
       <GridComponent
         dataSource={GetCollection({coll:'events'})}
@@ -109,18 +107,18 @@ const Events = () => {
           <ColumnDirective field='eventMonth' headerText='Month' width='120' textAlign='Center' editTemplate={editorTemplate} />
           <ColumnDirective field='eventDay' headerText='Day' width='135' format='yMd' textAlign='Center' />
           <ColumnDirective field='eventYear' headerText='Year' width='120' textAlign='Center' />
-          <ColumnDirective field='eventAttendance' headerText='Attendees' textAlign='Center' editType='dropdownedit' 
+          {/* <ColumnDirective field='eventAttendance' headerText='Attendees' textAlign='Center' editType='dropdownedit' 
           edit={{create: () => {
-            const multiselect = new MultiSelect({
-              dataSource: GetNamesOfCollection(GetCollection({coll: 'students'})), 
+            const multiselect = new MultiSelectEditor({
+              dataSource: ['a','b','c'], //GetNamesOfCollection(GetCollection({coll: 'students'}))
               mode: 'Box', placeholder: 'Select students',
             });
             return multiselect.element;
           },
             read: (element) => element.value,
             write: (args) => {args.rowData[args.column.field] = args.value;},
-        }}/>
-          <ColumnDirective field='ID' headerText='Event ID' width='125' textAlign='Center' allowEditing={false}/>
+        }}/> */}
+          <ColumnDirective field='ID' headerText='Event ID' width='125' textAlign='Center'/>
         </ColumnsDirective>
         <Inject services={[Page, Selection, Toolbar, Edit, Sort, Filter]} />
       </GridComponent>

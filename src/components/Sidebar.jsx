@@ -4,7 +4,7 @@ import { SiShopware } from 'react-icons/si';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import { links } from '../data/base';
+import { links } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const Sidebar = () => {
@@ -25,7 +25,6 @@ const handleCloseSidebar = () => {
         <div className="flex justify-between items-center">
           <Link to="/" onClick={() => {}}
           className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-widest dark:text-white text-slate-900">
-            {/* SiShopware icon used under CC0 1.0 universal license */}
             <SiShopware /> <span>Univent</span>
           </Link>
           <TooltipComponent content="Menu"

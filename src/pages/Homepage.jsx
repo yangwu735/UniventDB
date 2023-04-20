@@ -3,17 +3,20 @@ import { db } from '../lib/firebase';
 import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-import { BsCurrencyDollar } from 'react-icons/bs';
-import { GoPrimitiveDot } from 'react-icons/go';
-import { IoIosMore } from 'react-icons/io';
+// import { BsCurrencyDollar } from 'react-icons/bs';
+// import { GoPrimitiveDot } from 'react-icons/go';
+// import { IoIosMore } from 'react-icons/io';
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
 
-import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
-import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
-import { useStateContext } from '../contexts/ContextProvider';
-import product9 from '../data/product9.jpg';
-import GetDocumentData from "../GetDoc";
-import GetDocumentCount from "../GetQuery"
+// import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
+import { dropdownData, } from '../data/dummy';
+// import { useStateContext } from '../contexts/ContextProvider';
+// import product9 from '../data/lollipop.jpg';
+import GetDocumentData from "../tools/GetDoc";
+import GetDocumentCount from "../tools/GetQueryCount";
+import GetHighestPoints from "../tools/GetHighestPoints";
+import GetRandom from "../tools/GetRandom";
+import GetQuery from '../tools/GetQuery';
 
 const DropDown = ({ currentMode }) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -22,7 +25,16 @@ const DropDown = ({ currentMode }) => (
 );
 
 const Homepage = () => {
-  const { currentColor, currentMode } = useStateContext();
+  const [generating, setGenerating] = useState(false);
+  useEffect(() => {
+  },[])
+  let randomId = 1;
+  //For winner generation
+  const [grade, setGrade] = useState(0);
+  const handleGradeChange = (event) => {
+    setGrade(event.target.value);
+  };
+
   return (
     <div className="mt-8">
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">
@@ -35,7 +47,7 @@ const Homepage = () => {
                   style={{ color: '#03C9D7', backgroundColor: '#E5FAFB' }}
                   className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl"
                 >
-                  <GetDocumentCount coll='students' field='studentGrade' comp='==' value='9'/> Students
+                  <GetDocumentCount coll='students' field='studentGrade' comp='==' value={9}/> Students
                 </button>
               </Link>
             </div>
@@ -51,7 +63,7 @@ const Homepage = () => {
                 style={{ color: '#03C9D7', backgroundColor: '#E5FAFB' }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                <GetDocumentCount coll='students' field='studentGrade' comp='==' value='10'/> Students
+                <GetDocumentCount coll='students' field='studentGrade' comp='==' value={10}/> Students
               </button>
             </Link>
             <p className="mt-3">
@@ -66,7 +78,7 @@ const Homepage = () => {
                 style={{ color: '#03C9D7', backgroundColor: '#E5FAFB' }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                <GetDocumentCount coll='students' field='studentGrade' comp='==' value='11'/> Students
+                <GetDocumentCount coll='students' field='studentGrade' comp='==' value={11}/> Students
               </button>
               </Link>
             <p className="mt-3">
@@ -81,7 +93,7 @@ const Homepage = () => {
                 style={{ color: '#03C9D7', backgroundColor: '#E5FAFB' }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
               >
-                <GetDocumentCount coll='students' field='studentGrade' comp='==' value='12'/> Students
+                <GetDocumentCount coll='students' field='studentGrade' comp='==' value={12}/> Students
               </button>
             </Link>
             <p className="mt-3">
@@ -92,123 +104,62 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center">
-        <div className="md:w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-          <div className="flex justify-between">
-            <p className="text-xl font-semibold">Weekly Stats</p>
-            <button type="button" className="text-xl font-semibold text-gray-500">
-              <IoIosMore />
-            </button>
+      <div className="justify-center">
+        <div className="w-350 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
+          <div className=" justify-between">
+            <p className="text-2xl font-semibold">Top Points - All Grades</p>
           </div>
 
-          <div className="mt-10 ">
-            {weeklyStats.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4 w-full">
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    style={{ background: item.iconBg }}
-                    className="text-2xl hover:drop-shadow-xl text-white rounded-full p-3"
-                  >
-                    {item.icon}
-                  </button>
-                  <div>
-                    <p className="text-md font-semibold">{item.title}</p>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
-                  </div>
-                </div>
-
-                <p className={`text-${item.pcColor}`}>{item.amount}</p>
-              </div>
-            ))}
+          <div className=" ml-5 mt-5 center mx-auto text-xl font-semibold text-black">
+            <GetHighestPoints/>
           </div>
-
-        </div>
-        <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-          <div className="flex justify-between">
-            <p className="text-xl font-semibold">MedicalPro Branding</p>
-            <button type="button" className="text-xl font-semibold text-gray-400">
-              <IoIosMore />
-            </button>
-          </div>
-          <p className="text-xs cursor-pointer hover:drop-shadow-xl font-semibold rounded-lg w-24 bg-orange-400 py-0.5 px-2 text-gray-200 mt-10">
-            16 APR, 2021
-          </p>
-
-          <div className="flex gap-4 border-b-1 border-color mt-6">
-            {medicalproBranding.data.map((item) => (
-              <div key={item.title} className="border-r-1 border-color pr-4 pb-2">
-                <p className="text-xs text-gray-400">{item.title}</p>
-                <p className="text-sm">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="border-b-1 border-color pb-4 mt-2">
-            <p className="text-md font-semibold mb-2">Teams</p>
-
-            <div className="flex gap-4">
-              {medicalproBranding.teams.map((item) => (
-                <p
-                  key={item.name}
-                  style={{ background: item.color }}
-                  className="cursor-pointer hover:drop-shadow-xl text-white py-0.5 px-3 rounded-lg text-xs"
-                >
-                  {item.name}
-                </p>
-              ))}
-            </div>
-          </div>
-          <div className="mt-2">
-            <p className="text-md font-semibold mb-2">Leaders</p>
-            <div className="flex gap-4">
-              {medicalproBranding.leaders.map((item, index) => (
-                <img key={index} className="rounded-full w-8 h-8" src={item.image} alt="" />
-              ))}
-            </div>
-          </div>
-          <div className="flex justify-between items-center mt-5 border-t-1 border-color">
-            <div className="mt-3">
-              <Button
-                color="white"
-                bgColor={currentColor}
-                text="Add"
-                borderRadius="10px"
-              />
-            </div>
-
-            <p className="text-gray-400 text-sm">36 Recent Transactions</p>
+          <p className="text-2xl font-semibold mt-5">Top Points - Per Grade</p>
+          <div className=" ml-5 mt-5 center mx-auto text-xl font-semibold text-black">
+            <GetHighestPoints grade={9} className="mt-2"/>
+            <GetHighestPoints grade={10} className="mt-2"/>
+            <GetHighestPoints grade={11} className="mt-2"/>
+            <GetHighestPoints grade={12} className="mt-2"/>
           </div>
         </div>
-        <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-          <div className="flex justify-between">
-            <p className="text-xl font-semibold">Daily Activities</p>
-            <button type="button" className="text-xl font-semibold text-gray-500">
-              <IoIosMore />
-            </button>
+
+
+
+        <div className="w-350 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
+          <div className="justify-between">
+            <p className="text-2xl font-semibold">Generate Winners</p>
           </div>
-          <div className="mt-10">
-            <img
-              className="md:w-96 h-50 "
-              src={product9}
-              alt=""
-            />
-            <div className="mt-8">
-              <p className="font-semibold text-lg">React 18 coming soon!</p>
-              <p className="text-gray-400 ">By Johnathan Doe</p>
-              <p className="mt-8 text-sm text-gray-400">
-                This will be the small description for the news you have shown
-                here. There could be some great info.
-              </p>
-              <div className="mt-3">
-                <Button
-                  color="white"
-                  bgColor={currentColor}
-                  text="Read More"
-                  borderRadius="10px"
-                />
-              </div>
+          <div className='w-full mt-3'>
+            <select value={grade} onChange={handleGradeChange}>
+              <option value={0}>Please select a grade level</option>
+              <option value={9}>9th Grade</option>
+              <option value={10}>10th Grade</option>
+              <option value={11}>11th Grade</option>
+              <option value={12}>12th Grade</option>
+            </select>
+
+          </div>
+          <button 
+            className='mt-5 opacity-0.9 rounded-xl content-center p-4 hover:drop-shadow-xl h-auto'type="button"
+            style={{color: '#03C9D7', backgroundColor: '#E5FAFB'}}
+            onClick={() => {
+              if(grade == 0){
+                alert("Grade not set!");
+              }
+              else{
+                setGenerating(!generating);
+              }
+            }}>
+            {generating ? (<p>Regenerate!</p>) : (<p>Generate!</p>)}
+          </button>
+          
+          {generating ? (
+            <div className= "ml-5 mt-5 center mx-auto text-xl font-semibold text-black">
+              <GetHighestPoints grade={parseInt(grade)} className="mt-2"/>
+              <GetRandom grade={parseInt(grade)} className="mt-2"/>
             </div>
-          </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     </div>

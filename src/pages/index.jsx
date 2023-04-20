@@ -2,6 +2,7 @@ export { default as Homepage } from './Homepage';
 export { default as Kanban } from './Kanban';
 export { default as Prizes } from './Prizes';
 export { default as Students } from './Students';
+export { default as Requests } from './Requests';
 export { default as Editor } from './Editor';
 export { default as Events } from './Events';
 export { default as ColorPicker } from './ColorPicker';

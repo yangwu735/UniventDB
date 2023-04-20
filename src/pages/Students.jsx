@@ -6,7 +6,7 @@ import avatar from '../data/defaultAvatar.jpg';
 
 import { customersData, customersGrid } from '../data/dummy';
 import { Header } from '../components';
-import { GetCollection } from '../GetCollection';
+import { GetCollection } from '../tools/GetCollection';
 
 const Students = () => {
   const editSettings = {
@@ -17,8 +17,11 @@ const Students = () => {
   };
   const handleActionBegin = (args) => {
     console.log(args)
+    if (args.requestType === 'delete'){
+      db.collection('students').doc(args.data[0].ID).delete();
+    }
     if (args.requestType === 'save') {
-      const editedData = args.data;
+      let editedData = args.data;
       if (editedData.studentFirst === '') {
         args.cancel = true; // Cancel the save operation
         alert('Please enter a first name.'); // Show an error message
@@ -35,25 +38,25 @@ const Students = () => {
         args.cancel = true; 
         alert('Please enter points amount.'); 
       }
-      else if (editedData.ID === '') {
+      else if (editedData.ID === '' || editedData.ID === undefined) {
         args.cancel = true; 
         alert('Please enter student ID.'); 
       }
       else{
-        args.data.studentGrade = toString(args.data.studentGrade);
         if(args.action === 'add'){
-          args.data.studentEvents = [];
           alert('Please set student events on events page.');
-          db.collection('students').doc(args.data.ID).set(args.data);
+          editedData.studentEvents = [];
+          db.collection('students').doc(args.data.ID).set(editedData);
+        }else{
+          db.collection('students').doc(args.data.ID).update(editedData);
         }
-        db.collection('students').doc(args.data.ID).update(args.data);
       }
     } 
     
   };
   const [sortSettings, setSortSettings] = useState({ columns: [{ field: 'studentLast', direction: 'Ascending' }] });
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 p-2 ml-10 bg-white rounded-3xl">
       <Header category="Page" title="Students" />
       <GridComponent
         dataSource={GetCollection({coll:'students'})}
@@ -65,7 +68,7 @@ const Students = () => {
         editSettings={editSettings}
         rowHeight={60}
         columnSpacing={0}
-        toolbar={["Add", "Edit", "Delete", "Update", "Cancel"]} // Enable the grid's toolbar
+        toolbar={["Add", "Edit", "Delete", "Update", "Cancel","Search"]} // Enable the grid's toolbar
         sortSettings={sortSettings}
       >
         <ColumnsDirective>
@@ -88,8 +91,8 @@ const Students = () => {
           <ColumnDirective field='studentLast' headerText='Last Name' width='100' textAlign='Left'/>
           <ColumnDirective field='studentGrade' headerText='Grade Level' width='130' textAlign='Center'/>
           <ColumnDirective field='studentPoints' headerText='Points' width='100' textAlign='Center'/>
-          <ColumnDirective field='studentEvents' headerText='Events' width='100' format='yMd' textAlign='Center' editType={undefined}/>
-          <ColumnDirective field='ID' headerText='Student ID' width='120' textAlign='Center' editType={undefined}/>
+          <ColumnDirective field='studentEvents' headerText='Events' width='100' textAlign='Center' allowEditing={false}/>
+          <ColumnDirective field='ID' headerText='Student ID' width='120' textAlign='Center'/>
         </ColumnsDirective>
         <Inject services={[Page, Selection, Toolbar, Edit, Sort, Filter]} />
       </GridComponent>

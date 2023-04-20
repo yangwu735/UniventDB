@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db } from "./lib/firebase";
+import { db } from "../lib/firebase";
 import "firebase/firestore";
 
 function GetDocumentCount(props) {
@@ -10,7 +10,7 @@ function GetDocumentCount(props) {
     let count = 0;
     docRef.get().then((querySnapshot) => {
       if (querySnapshot) {
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach(() => {
           count++;
         });
       } else {
