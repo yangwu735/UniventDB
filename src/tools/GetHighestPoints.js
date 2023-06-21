@@ -3,7 +3,7 @@ import { db } from "../lib/firebase";
 import "firebase/firestore";
 import GetDocumentData from './GetDoc';
 
-function GetHighestPoints(props) {
+function gitGetHighestPoints(props) {
   const [documentId, setDocumentId] = useState(null);
   useEffect(() => {
     if(props.grade === undefined){
