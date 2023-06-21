@@ -16,7 +16,8 @@ const Requests  = () => {
   const handleActionBegin = (args) => {
     console.log(args)
     if (args.requestType === 'delete'){
-      db.collection('prizeRequests').doc(args.data[0].ID).delete();
+      console.log(args.data[0].id);
+      db.collection('prizeRequests').doc(args.data[0].id).delete();
     }
   };
   return (

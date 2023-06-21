@@ -24,6 +24,7 @@ const DropDown = ({ currentMode }) => (
   </div>
 );
 
+//Creates the home page
 const Homepage = () => {
   const [generating, setGenerating] = useState(false);
   useEffect(() => {
@@ -35,11 +36,12 @@ const Homepage = () => {
     setGrade(event.target.value);
   };
 
+  //Rendering below
   return (
-    <div className="mt-8">
+    <div className="mt-1">
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">
         <div className="flex m-3 flex-wrap justify-center gap-10 items-center">
-          <div key={'Freshmen'} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+          <div key={'Freshmen'} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-1 rounded-2xl ">
             <div>
               <Link to="/Students">
                 <button
@@ -56,7 +58,7 @@ const Homepage = () => {
             </p>
             <p className="text-sm text-gray-400  mt-1 ml-1">9th grade</p>
           </div>
-          <div key={'Sophomores'} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+          <div key={'Sophomores'} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-1 rounded-2xl ">
             <Link to="/Students">
               <button
                 type="button"
@@ -71,7 +73,7 @@ const Homepage = () => {
             </p>
             <p className="text-sm text-gray-400  mt-1 ml-1">10th grade</p>
           </div>
-          <div key={'Juniors'} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+          <div key={'Juniors'} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-1 rounded-2xl ">
             <Link to="/Students">
               <button
                 type="button"
@@ -86,7 +88,7 @@ const Homepage = () => {
             </p>
             <p className="text-sm text-gray-400  mt-1 ml-1">11th grade</p>
           </div>
-          <div key={'Seniors'} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+          <div key={'Seniors'} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-1 rounded-2xl ">
             <Link to="/Students">
               <button
                 type="button"

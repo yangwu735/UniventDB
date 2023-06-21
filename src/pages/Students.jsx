@@ -8,6 +8,7 @@ import { customersData, customersGrid } from '../data/dummy';
 import { Header } from '../components';
 import { GetCollection } from '../tools/GetCollection';
 
+//Creates the students page
 const Students = () => {
   const editSettings = {
     allowEditing: true, // Enable editing
@@ -15,6 +16,7 @@ const Students = () => {
     allowDeleting: true, // Enable deleting rows
     mode: "Normal", // Set editing mode to "Normal"
   };
+  //Handles database grid actions
   const handleActionBegin = (args) => {
     console.log(args)
     if (args.requestType === 'delete'){
@@ -54,7 +56,9 @@ const Students = () => {
     } 
     
   };
+  //Sorts by default by student last name
   const [sortSettings, setSortSettings] = useState({ columns: [{ field: 'studentLast', direction: 'Ascending' }] });
+  //Rendering below
   return (
     <div className="m-2 p-2 ml-10 bg-white rounded-3xl">
       <Header category="Page" title="Students" />
