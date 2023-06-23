@@ -10,12 +10,7 @@ import { GetCollection } from '../tools/GetCollection';
 
 //Creates the students page
 const Students = () => {
-  const editSettings = {
-    allowEditing: true, // Enable editing
-    allowAdding: true, // Enable adding new rows
-    allowDeleting: true, // Enable deleting rows
-    mode: "Normal", // Set editing mode to "Normal"
-  };
+  
   //Handles database grid actions
   const handleActionBegin = (args) => {
     console.log(args)
@@ -56,8 +51,20 @@ const Students = () => {
     } 
     
   };
+  const editStgs = {
+    allowEditing: true, // Enable editing
+    allowAdding: true, // Enable adding new rows
+    allowDeleting: true, // Enable deleting rows
+    mode: "Normal", // Set editing mode to "Normal"
+  };
   //Sorts by default by student last name
-  const [sortSettings, setSortSettings] = useState({ columns: [{ field: 'studentLast', direction: 'Ascending' }] });
+  const [sortStgs, setSortStgs] = useState({ columns: [{ field: 'studentLast', direction: 'Ascending' }] });
+  const filterStgs = {
+    type: 'Excel',
+    columns: [
+      { field: 'studentGrade', operator: 'equal', value: '10'}
+    ]
+  }
   //Rendering below
   return (
     <div className="m-2 p-2 ml-10 bg-white rounded-3xl">
@@ -69,11 +76,13 @@ const Students = () => {
         allowPaging
         allowSorting
         pageSettings={{ pageCount: 5 }}
-        editSettings={editSettings}
+        editSettings={editStgs}
         rowHeight={60}
         columnSpacing={0}
         toolbar={["Add", "Edit", "Delete", "Update", "Cancel","Search"]} // Enable the grid's toolbar
-        sortSettings={sortSettings}
+        sortSettings={sortStgs}
+        allowFiltering
+        filterSettings={filterStgs}
       >
         <ColumnsDirective>
           <ColumnDirective type='checkbox' width='50' allowEditing={false}/>

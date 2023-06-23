@@ -87,6 +87,7 @@ const Prizes = () => {
   
   const handleNameChange = (event) => {
     setName(event.target.value);
+    setGrade(GetDocumentData({coll: 'students', docu: 'S1', field: 'grade'}))
   };
   const handleSubmit = () => {
     setShowOptions(false);
@@ -98,7 +99,7 @@ const Prizes = () => {
   useEffect(() => {
     handleButton(b1,b2,b3);
     console.log(grade);
-    if(name === 'Orange Ophelius' && grade == 11){
+    if(name === 'Orange Ophelius' && grade == 11){ //update
       setShowOptions(true);
     }
     else{

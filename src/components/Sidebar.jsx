@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom';
-import { SiShopware } from 'react-icons/si';
+import { TbCirclesRelation } from 'react-icons/tb';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
@@ -25,7 +25,7 @@ const handleCloseSidebar = () => {
         <div className="flex justify-between items-center">
           <Link to="/" onClick={() => {}}
           className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-widest dark:text-white text-slate-900">
-            <SiShopware /> <span>Univent</span>
+            <span> </span><TbCirclesRelation size={35}/> <span>Univent</span>
           </Link>
           <TooltipComponent content="Menu"
           position="BottomCenter">
